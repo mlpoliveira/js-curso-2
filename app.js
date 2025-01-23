@@ -1,21 +1,28 @@
-// let titulo = document.querySelector('h1');
-// titulo.innerHTML = 'Jogo do número secreto';
-// let paragrafo = document.querySelector('p');
-// paragrafo.innerHTML = 'Escolha um número de 1 a 10';
-// 
+
+let listaDeNumerosSorteados = [];
+let numeroLimite = 3;
 let numeroSecreto = gerarNumeroAleatorio();
 let tentativas = 1;
 mensagemInicial();
+function mensagemInicial() {
+    exibirTextoNaTela('h1', 'Jogo do número secreto');
+    exibirTextoNaTela('p', 'Escolha um número de 1 a 10');
+    }
 
 function exibirTextoNaTela(tag, texto) {
     let campo = document.querySelector(tag);
     campo.innerHTML = texto;
-}
-
-function mensagemInicial() {
-exibirTextoNaTela('h1', 'Jogo do número secreto');
-exibirTextoNaTela('p', 'Escolha um número de 1 a 10');
-}
+    responsiveVoice.speak(texto, 'Brazilian Portuguese Female', {rate: 1.2});
+    /*
+    if ('speechSynthesis' in window) {
+        let utterance = new SpeechSynthesisUtterance(texto);
+        utterance.lang = 'pt-BR'; 
+        utterance.rate = 1.2; 
+        window.speechSynthesis.speak(utterance); 
+    } else {
+        console.log("Web Speech API não suportada neste navegador.");
+    }*/
+    }
 
 function verificarChute() {
     let chute = document.querySelector('input').value;
@@ -38,12 +45,24 @@ function verificarChute() {
     }
 }
 function gerarNumeroAleatorio() {
-   return parseInt(Math.random() * 10 + 1);	
+    let numeroEscolhido = parseInt(Math.random() * numeroLimite + 1);
+    let quantidadeDeElementosNaLista = listaDeNumerosSorteados.length;
+    if (quantidadeDeElementosNaLista == numeroLimite){
+        listaDeNumerosSorteados = [];
+    }
+    if(listaDeNumerosSorteados.includes(numeroEscolhido)) {
+        return gerarNumeroAleatorio();
+    } else{
+        listaDeNumerosSorteados.push(numeroEscolhido);
+        console.log(listaDeNumerosSorteados);
+        return numeroEscolhido;
+    }
+   //return parseInt(Math.random() * 10 + 1);	
 }
 
 function limparCampo() {
     chute = document.querySelector('input');
-    chute.value = ' ';
+    chute.value = '';
 }   
 
 function reiniciarJogo() {
