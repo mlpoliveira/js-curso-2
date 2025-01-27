@@ -1,4 +1,4 @@
-
+//https://jsgame-nu.vercel.app/
 let listaDeNumerosSorteados = [];
 let numeroLimite = 3;
 let numeroSecreto = gerarNumeroAleatorio();
